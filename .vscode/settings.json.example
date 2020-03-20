@@ -1,0 +1,22 @@
+{
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll": true
+  },
+  "[python]": {
+    "editor.formatOnPaste": false
+  },
+  "python.pythonPath": "${workspaceFolder}/backend/.venv/bin/python",
+  "python.venvPath": "${workspaceFolder}/backend",
+  "python.envFile": "${workspaceFolder}/backend/.env",
+  "python.formatting.provider": "black",
+  "python.formatting.blackPath": "${workspaceFolder}/backend/.venv/bin/black",
+  "python.linting.flake8Path": "${workspaceFolder}/backend/.venv/bin/flake8",
+  "python.linting.flake8Enabled": true,
+  "python.linting.enabled": true,
+  "python.sortImports.path": "${workspaceFolder}/backend/.venv/bin/isort",
+  "python.testing.pytestEnabled": true,
+  "python.testing.pytestPath": "${workspaceFolder}/backend/.venv/bin/pytest",
+  "eslint.enable": true,
+  "eslint.workingDirectories": ["./frontend"]
+}
