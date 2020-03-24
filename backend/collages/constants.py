@@ -1,0 +1,5 @@
+AUTH_HEADER_SCHEME = "bearer"
+
+AUTH_COOKIE_NAME = "access_token"
+
+AUTH_ALGORITHM = "HS256"

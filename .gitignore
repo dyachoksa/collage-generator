@@ -93,6 +93,7 @@ ENV/
 .ropeproject
 
 # IDE & editors
+*.ipynb
 /*.iml
 .idea/
 .codeintel/

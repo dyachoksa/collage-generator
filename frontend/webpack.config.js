@@ -6,7 +6,7 @@ const CompressionPlugin = require("compression-webpack-plugin");
 
 const devMode = process.env.NODE_ENV !== "production";
 
-const contentPath = path.join(__dirname, "..", "build", "admin");
+const contentPath = path.join(__dirname, "..", "build", "frontend");
 
 module.exports = {
   entry: {
@@ -25,8 +25,7 @@ module.exports = {
         exclude: /node_modules\/(?!react-intl|intl-messageformat|intl-messageformat-parser)/,
         use: [
           { loader: "babel-loader", options: { cacheDirectory: true } },
-          { loader: "ts-loader" },
-          { loader: "react-docgen-typescript-loader" }
+          { loader: "ts-loader" }
         ]
       },
       {
@@ -51,7 +50,7 @@ module.exports = {
   },
   devtool: devMode ? "source-map" : false,
   devServer: {
-    allowedHosts: ["localhost", ".sheep-counter.local"],
+    allowedHosts: ["localhost", ".collage-generator.local"],
     contentBase: contentPath,
     publicPath: "/",
     historyApiFallback: {

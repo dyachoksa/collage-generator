@@ -1,0 +1,110 @@
+### Register
+
+POST http://localhost:5000/api/auth/register
+Accept: application/json
+Content-Type: application/json
+
+{
+  "email": "user@example.com",
+  "password": "password",
+  "first_name": "User"
+}
+
+### Login
+
+POST http://localhost:5000/api/auth/login
+Accept: application/json
+Content-Type: application/json
+
+{
+  "email": "user@example.com",
+  "password": "password"
+}
+
+> {% client.global.set("auth_token", response.body.token); %}
+
+### User profile
+
+GET http://localhost:5000/api/users/3
+Accept: application/json
+Authorization: Bearer {{auth_token}}
+
+### Update user profile
+
+PUT http://localhost:5000/api/users/3
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{auth_token}}
+
+{
+  "email": "user@example.com",
+  "last_name": "Example"
+}
+
+### Get collages
+
+GET http://localhost:5000/api/collages
+Accept: application/json
+Authorization: Bearer {{auth_token}}
+
+### Get image
+
+GET http://localhost:5000/api/collages/1
+Accept: application/json
+Authorization: Bearer {{auth_token}}
+
+
+### Create a new collage
+
+POST http://localhost:5000/api/collages
+Accept: application/json
+Authorization: Bearer {{auth_token}}
+Content-Type: application/json
+
+{
+  "title": "My collage",
+  "description": "My awesome collage"
+}
+
+### Generate collage
+
+POST http://localhost:5000/api/collages/1/create
+Accept: application/json
+Authorization: Bearer {{auth_token}}
+
+### Delete image
+
+DELETE http://localhost:5000/api/images/304071ae-30d2-43db-b108-a71aa21e56f6.jpg?collage_id=1
+Accept: application/json
+Authorization: Bearer {{auth_token}}
+
+### Upload images
+
+POST http://localhost:5000/api/images?collage_id=1
+Accept: application/json
+Authorization: Bearer {{auth_token}}
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="image"; filename="dummy-600x800-color3F4343.jpg"
+
+< ../backend/data/test_images/600x800/dummy-600x800-color3F4343.jpg
+--WebAppBoundary--
+Content-Disposition: form-data; name="image"; filename="dummy-600x800-colorBAD0C4.jpg"
+
+< ../backend/data/test_images/600x800/dummy-600x800-colorBAD0C4.jpg
+--WebAppBoundary--
+Content-Disposition: form-data; name="image"; filename="dummy-600x800-colorF4F9EB.jpg"
+
+< ../backend/data/test_images/600x800/dummy-600x800-colorF4F9EB.jpg
+--WebAppBoundary--
+Content-Disposition: form-data; name="image"; filename="dummy-800x600-color3F4343.jpg"
+
+< ../backend/data/test_images/800x600/dummy-800x600-color3F4343.jpg
+--WebAppBoundary--
+Content-Disposition: form-data; name="image"; filename="dummy-800x600-colorBAD0C4.jpg"
+
+< ../backend/data/test_images/800x600/dummy-800x600-colorBAD0C4.jpg
+--WebAppBoundary--
+
+###
