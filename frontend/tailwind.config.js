@@ -1,8 +1,10 @@
+const defaultTheme = require("tailwindcss/defaultTheme");
+
 module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        body: "Inter, Roboto, sans-serif"
+        sans: ["Inter", ...defaultTheme.fontFamily.sans]
       },
       spacing: {
         "72": "18rem",
@@ -11,6 +13,8 @@ module.exports = {
       }
     }
   },
-  variants: {},
+  variants: {
+    objectFit: ["responsive", "hover"]
+  },
   plugins: [require("@tailwindcss/ui")]
 };

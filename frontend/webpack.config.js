@@ -50,7 +50,7 @@ module.exports = {
   },
   devtool: devMode ? "source-map" : false,
   devServer: {
-    allowedHosts: ["localhost", ".collage-generator.local"],
+    allowedHosts: ["localhost", ".collages.local"],
     contentBase: contentPath,
     publicPath: "/",
     historyApiFallback: {
@@ -58,7 +58,8 @@ module.exports = {
     },
     hotOnly: true,
     proxy: {
-      "/api": "http://localhost:5000"
+      "/api": "http://localhost:5000",
+      "/media": "http://localhost:5000"
     }
   },
   optimization: {

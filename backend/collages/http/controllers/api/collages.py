@@ -56,7 +56,7 @@ class CollageController(HTTPEndpoint):
     async def put(self, request: Request):
         collage_id = request.path_params["collage_id"]
 
-        collage = self.collages_service.get_by_id(collage_id)
+        collage = await self.collages_service.get_by_id(collage_id)
 
         schema = CollageSchema(obj=collage)
 

@@ -4,6 +4,8 @@ import time
 from dataclasses import asdict
 from typing import List
 
+from starlette.concurrency import run_in_threadpool
+
 from collages.data.entities import Collage, User
 from collages.data.tables import Collages
 from collages.data.types import CollageStatus
@@ -11,13 +13,19 @@ from collages.errors import EntityDoesNotExistError
 from collages.extensions import db
 from collages.generators.random_generator import RandomGenerator
 
+from .images import ImagesService
+
 
 class CollagesService:
     def __init__(self):
         self.logger = logging.getLogger(__name__)
 
     async def find_by_user_id(self, user_id: int) -> List[Collage]:
-        query = Collages.select().where(Collages.c.user_id == user_id)
+        query = (
+            Collages.select()
+            .where(Collages.c.user_id == user_id)
+            .order_by(Collages.c.created_at.desc())
+        )
 
         result = await db.fetch_all(query)
 
@@ -62,11 +70,15 @@ class CollagesService:
 
         await db.execute(query)
 
+        await run_in_threadpool(ImagesService.clean_collage_storage, collage)
+
     async def generate(self, collage: Collage):
         self.logger.debug("Started generation of collage ID %d", collage.id)
         time_start = time.perf_counter()
 
         generator = RandomGenerator(collage)
+
+        old_image = collage.image
 
         collage.image = await generator.generate()
 
@@ -88,3 +100,9 @@ class CollagesService:
             )
         )
         await db.execute(query)
+
+        if old_image is not None:
+            storage_dir = ImagesService.get_collage_dir(collage)
+            await run_in_threadpool(
+                ImagesService.remove_image_from_storage, storage_dir, old_image
+            )

@@ -6,9 +6,10 @@ from starlette.status import (
     HTTP_400_BAD_REQUEST,
     HTTP_404_NOT_FOUND,
     HTTP_500_INTERNAL_SERVER_ERROR,
+    HTTP_401_UNAUTHORIZED,
 )
 
-from collages.errors import EntityDoesNotExistError
+from collages.errors import EntityDoesNotExistError, AuthError
 
 
 async def http_exception(request: Request, exc: HTTPException):
@@ -41,9 +42,20 @@ async def internal_error(request: Request, exc: Exception):
     return JSONResponse(content, status_code=HTTP_500_INTERNAL_SERVER_ERROR)
 
 
+async def auth_error(request: Request, exc: AuthError):
+    content = {
+        "message": str(exc),
+        "success": False,
+        "status": HTTP_401_UNAUTHORIZED,
+        "error": str(exc),
+    }
+    return JSONResponse(content, status_code=HTTP_401_UNAUTHORIZED)
+
+
 exception_handlers = {
     HTTPException: http_exception,
     EntityDoesNotExistError: not_found,
     ValidationError: validation_error,
+    AuthError: auth_error,
     Exception: internal_error,
 }

@@ -8,6 +8,7 @@ from .users import UserController
 routes = [
     Route("/auth/login", LoginController, name="login"),
     Route("/auth/register", RegisterController, name="register"),
+    Route("/users/me", UserController),
     Route("/users/{user_id:int}", UserController, name="user"),
     Route("/collages", CollagesController, name="collages"),
     Route("/collages/{collage_id:int}", CollageController, name="collage"),

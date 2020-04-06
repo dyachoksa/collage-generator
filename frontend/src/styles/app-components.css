@@ -1,0 +1,10 @@
+/* application components */
+.page-title {
+  @apply text-2xl font-bold leading-7 text-gray-900
+}
+
+@media (min-width: 640px) {
+  .page-title {
+    @apply text-3xl leading-9;
+  }
+}

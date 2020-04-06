@@ -52,8 +52,8 @@ class CollageSchema(BaseSchema):
 
     id = fields.Integer(dump_only=True)
     user_id = fields.Integer(dump_only=True)
-    title = fields.String(default=None)
-    description = fields.String(default=None)
+    title = fields.String(default=None, missing=None, allow_none=True)
+    description = fields.String(default=None, missing=None, allow_none=True)
     status = EnumField(CollageStatus, dump_only=True)
     image = fields.Method("get_image", dump_only=True)
     source_images = fields.Method("get_source_images", dump_only=True)

@@ -85,6 +85,21 @@ class ImagesService:
         return Image.open(BytesIO(image_bytes))
 
     @staticmethod
+    def clean_collage_storage(collage: Collage):
+        images = collage.source_images
+        if collage.image is not None:
+            images.append(collage.image)
+
+        collage_dir = ImagesService.get_collage_dir(collage)
+        for image in images:
+            ImagesService.remove_image_from_storage(collage_dir, image)
+
+        try:
+            os.rmdir(collage_dir)
+        except OSError:
+            pass
+
+    @staticmethod
     def remove_image_from_storage(storage_dir: str, image: str):
         full_path = os.path.join(storage_dir, image)
 
