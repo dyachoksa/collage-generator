@@ -43,6 +43,10 @@ const authSlice = createSlice({
     logoutSuccess(state) {
       state.isAuthenticated = false;
       state.currentUser = null;
+    },
+
+    updateCurrentUser(state, action: PayloadAction<User>) {
+      state.currentUser = action.payload;
     }
   }
 });
@@ -52,7 +56,8 @@ export const {
   authSuccess,
   authError,
   logoutRequest,
-  logoutSuccess
+  logoutSuccess,
+  updateCurrentUser
 } = authSlice.actions;
 
 const dispatchAuth = async (
@@ -93,7 +98,7 @@ export const logout = (): AppThunk => async dispatch => {
   try {
     dispatch(logoutRequest());
 
-    // do api call
+    await authApi.logout();
 
     dispatch(logoutSuccess());
   } catch (err) {

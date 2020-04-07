@@ -12,3 +12,9 @@ export interface CollageBasicData {
   title?: string;
   description?: string;
 }
+
+export interface UserEditData {
+  email: string;
+  first_name?: string;
+  last_name?: string;
+}

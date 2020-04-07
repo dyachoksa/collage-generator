@@ -1,7 +1,8 @@
 from marshmallow import ValidationError
+from starlette.authentication import requires
 from starlette.endpoints import HTTPEndpoint
 from starlette.requests import Request
-from starlette.responses import JSONResponse
+from starlette.responses import JSONResponse, PlainTextResponse
 from starlette.status import HTTP_201_CREATED, HTTP_200_OK
 from starlette.types import Scope, Receive, Send
 
@@ -33,7 +34,7 @@ class BaseAuthController(HTTPEndpoint):
             AUTH_COOKIE_NAME,
             token,
             expires=settings.AUTH_EXPIRES,
-            path="/api",
+            path=settings.COOKIE_PATH,
             domain=settings.APP_DOMAIN,
             secure=not settings.DEBUG,
             httponly=True,
@@ -75,3 +76,14 @@ class RegisterController(BaseAuthController):
         token = await self.auth_service.register(user)
 
         return self.format_response(user, token, HTTP_201_CREATED)
+
+
+class LogoutController(BaseAuthController):
+    @requires("user")
+    async def post(self, request: Request):
+        response = PlainTextResponse("", status_code=HTTP_200_OK)
+        response.delete_cookie(
+            AUTH_COOKIE_NAME, path=settings.COOKIE_PATH, domain=settings.APP_DOMAIN
+        )
+
+        return response

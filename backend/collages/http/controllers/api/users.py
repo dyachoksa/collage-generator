@@ -3,7 +3,7 @@ from starlette.endpoints import HTTPEndpoint
 from starlette.exceptions import HTTPException
 from starlette.requests import Request
 from starlette.responses import JSONResponse, Response
-from starlette.status import HTTP_405_METHOD_NOT_ALLOWED
+from starlette.status import HTTP_404_NOT_FOUND
 from starlette.types import Scope, Receive, Send
 
 from collages.data.entities import User
@@ -30,7 +30,8 @@ class UserController(HTTPEndpoint):
         if user_id is None:
             user_id = request.user.id
 
-        assert user_id == request.user.id
+        if user_id != request.user.id:
+            raise HTTPException(status_code=HTTP_404_NOT_FOUND)
 
         user = await self.users_service.get_by_id(user_id)
 
@@ -40,9 +41,10 @@ class UserController(HTTPEndpoint):
     async def put(self, request: Request):
         user_id = request.path_params.get("user_id", None)
         if user_id is None:
-            raise HTTPException(status_code=HTTP_405_METHOD_NOT_ALLOWED)
+            user_id = request.user.id
 
-        assert user_id == request.user.id
+        if user_id != request.user.id:
+            raise HTTPException(status_code=HTTP_404_NOT_FOUND)
 
         user = await self.users_service.get_by_id(user_id)
 

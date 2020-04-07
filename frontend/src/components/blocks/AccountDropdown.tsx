@@ -3,11 +3,14 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserCircle } from "@fortawesome/free-regular-svg-icons";
 
-import { DropdownLink } from "~/components/ui";
 import { useAuth } from "~/hooks";
+import { User } from "~/models/entities";
+import { DropdownLink } from "~/components/ui";
+
+const getDisplayName = (user: User) => user.first_name || user.email;
 
 export const AccountDropdown: React.FC = () => {
-  const { isAuthenticated, logout } = useAuth();
+  const { isAuthenticated, logout, currentUser } = useAuth();
   const [isOpen, setOpen] = useState(false);
   const elRef = useRef(null);
 
@@ -41,7 +44,9 @@ export const AccountDropdown: React.FC = () => {
           className="ml-2 px-3 py-2 rounded-md text-sm font-medium leading-5 text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700 transition duration-150 ease-in-out"
         >
           <FontAwesomeIcon icon={faUserCircle} size="lg" />
-          <span className="pl-1 hidden sm:inline-block">Account</span>
+          <span className="pl-1 hidden sm:inline-block">
+            {getDisplayName(currentUser)}
+          </span>
         </button>
       </div>
       {isOpen && (

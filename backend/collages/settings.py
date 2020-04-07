@@ -23,6 +23,8 @@ SECRET_KEY = _config(
 
 AUTH_EXPIRES = 7 * 24 * 60 * 60  # expiration time, in seconds
 
+COOKIE_PATH = "/api"
+
 APP_DOMAIN = _config("APP_DOMAIN", default="collages.local")
 
 COLLAGES_STORAGE_DIR = _config(

@@ -2,7 +2,8 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { LoginData, RegisterData } from "~/models/forms";
 import { RootState } from "~/features";
-import { login, logout, register, checkAuth } from "~/features/auth";
+import { login, logout, register, checkAuth, updateCurrentUser } from "~/features/auth";
+import { User } from "~/models/entities";
 
 export function useAuth() {
   const dispatch = useDispatch();
@@ -19,6 +20,9 @@ export function useAuth() {
 
     checkAuth() {
       dispatch(checkAuth());
+    },
+    updateCurrentUser(user: User) {
+      dispatch(updateCurrentUser(user));
     },
     register(data: RegisterData) {
       dispatch(register(data));

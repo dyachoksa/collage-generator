@@ -8,4 +8,6 @@ const login = async (data: LoginData) => baseApi.post<AuthResponse>("auth/login"
 const register = async (data: RegisterData) =>
   baseApi.post<AuthResponse>("auth/register", data);
 
-export const authApi = { login, register };
+const logout = async () => baseApi.post("auth/logout");
+
+export const authApi = { login, register, logout };
