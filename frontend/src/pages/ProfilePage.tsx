@@ -65,7 +65,9 @@ export const ProfilePage: React.FC = () => {
                   Email address
                 </div>
                 <div className="mt-2">
-                  <span className="font-medium text-indigo-700">user@example.com</span>
+                  <span className="font-medium text-indigo-700">
+                    {currentUserEmail}
+                  </span>
                 </div>
               </div>
             </div>
